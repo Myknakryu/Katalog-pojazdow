@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace KatalogSamochodowy
 {
     class Funkcje
     {
-        public static int CzytajLiczbe()
+        public static int CzytajLiczbe(int max = Int32.MaxValue, int min = Int32.MinValue)
         {
-            return Int32.Parse(Console.ReadLine());
+            try
+            {
+                int liczba = Int32.Parse(Console.ReadLine());
+                if (liczba >= min && liczba <= max)
+                    return liczba;
+                else return min;
+            }
+            catch(System.FormatException e)
+            {
+                return 0;
+            }
         }
 
         public static int WyborElementu(List<Pojazd> katalog, String wiadomosc = "Wybierz element")
@@ -45,6 +57,21 @@ namespace KatalogSamochodowy
             }
         }
 
+        public static void WyswietlanieWarunkowe(List<Pojazd> katalog)
+        {
+            PropertyInfo Parametr = typeof(Pojazd).GetProperty(Pojazd.skladowe[4]);
+            foreach(var Pojazd in (from el in katalog where (int)Parametr.GetValue(el) < 100000 select el).ToList()) {
+                Pojazd.Wypisz();
+            }
+        }
+
+        public static List<Pojazd> Sortowanie(List<Pojazd> katalog,int skladowa)
+        {
+            PropertyInfo Parametr = typeof(Pojazd).GetProperty(Pojazd.skladowe[skladowa]);
+            List<Pojazd> nowyKatalog = katalog.OrderBy(x => Parametr.GetValue(x, null)).ToList();
+            return nowyKatalog;
+        }
+
         public static void ObslugaMenu()
         {
             List<Pojazd> Katalog = new List<Pojazd>();
@@ -56,12 +83,12 @@ namespace KatalogSamochodowy
                 {
                     case 1:
                         {
-                            
+                            Katalog = OperacjePlikowe.WczytajPlik();
                             break;
                         }
                     case 2:
                         {
-
+                            OperacjePlikowe.ZapisDoPliku(Katalog);
                             break;
                         }
                     case 3:
@@ -77,7 +104,7 @@ namespace KatalogSamochodowy
                         }
                     case 5:
                         {
-
+                            WyswietlanieWarunkowe(Katalog);
                             break;
                         }
                     case 6:
@@ -87,7 +114,11 @@ namespace KatalogSamochodowy
                         }
                     case 7:
                         {
-
+                            Console.WriteLine("Podaj wzgledem ktorej danej chcesz sortowac");
+                            int i = 0;
+                            foreach (var el in Pojazd.skladowe)
+                                Console.WriteLine("{0}. {1}", i++, el);
+                            Katalog = Sortowanie(Katalog, CzytajLiczbe(0,Pojazd.skladowe.Length-1));
                             break;
                         }
                     case 8:

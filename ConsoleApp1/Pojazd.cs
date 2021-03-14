@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace KatalogSamochodowy
 {
     enum typ_skrzyni { manualna, automatyczna}
+    [Serializable]
     class Pojazd
     {
         public String Marka { get; set; }
@@ -59,5 +60,6 @@ namespace KatalogSamochodowy
                 return true;
             return false;
         }
+        public static String[] skladowe = { "Marka", "Model", "Rocznik", "Pojemnosc", "Przebieg", "Skrzynia" };
     }
 }
