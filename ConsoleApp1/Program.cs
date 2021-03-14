@@ -9,7 +9,7 @@ namespace KatalogSamochodowy
             Console.WriteLine("Test");
             Pojazd samochod = new Pojazd("Ford", "Focus", 2004, 1999, 20000, typ_skrzyni.automatyczna);
             samochod.Wypisz();
-            Funkcje.GenerujMenu();
+            Funkcje.ObslugaMenu();
         }
     }
 }

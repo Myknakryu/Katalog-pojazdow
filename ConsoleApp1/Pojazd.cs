@@ -26,6 +26,27 @@ namespace KatalogSamochodowy
             this.Przebieg = Przebieg;
             this.Skrzynia = Skrzynia;
         }
+        public Pojazd() { }
+
+        public static Pojazd WprowadzPojazd()
+        {
+            String[] Opcje = { "Podaj marke", "Podaj model", "Podaj rocznik", "Podaj pojemnosc (w cm^3)", "Podaj przebieg (w km)", "Podaj typ skrzyni\n 1- automatyczna by ustawic automatyczna" };
+            int i = 0;
+            Pojazd Samochod = new Pojazd();
+            Console.WriteLine("{0}: ", Opcje[i++]);
+            Samochod.Marka = Console.ReadLine();
+            Console.WriteLine("{0}: ", Opcje[i++]);
+            Samochod.Model = Console.ReadLine();
+            Console.WriteLine("{0}: ", Opcje[i++]);
+            Samochod.Rocznik = Funkcje.CzytajLiczbe();
+            Console.WriteLine("{0}: ", Opcje[i++]);
+            Samochod.Pojemnosc = Funkcje.CzytajLiczbe();
+            Console.WriteLine("{0}: ", Opcje[i++]);
+            Samochod.Przebieg = Funkcje.CzytajLiczbe();
+            Console.WriteLine("{0}: ", Opcje[i]);
+            Samochod.Skrzynia = (Funkcje.CzytajLiczbe()== 1?typ_skrzyni.automatyczna:typ_skrzyni.manualna);
+            return Samochod;
+        }
 
         public void Wypisz()
         {
